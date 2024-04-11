@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema 
+//para actualizar prisma
+//  npm i --save-dev prisma@latest                       │
+// npm i @prisma/client@latest
+  
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Producto{
+  id Int @id @default(autoincrement())
+  nombre String
+  precio Float
+  imagen String
+  categoria Categoria @relation(fields: [categoriaId],references: [id])//un producto tiene una categoria
+  categoriaId Int
+}
+model Categoria{
+    id Int @id @default(autoincrement())
+    nombre String
+    icono String  
+    productos Producto[] //una categoria tiene muchos productos
+}
+model Orden{
+id Int @id @default(autoincrement())
+nombre String
+fecha String
+total Float
+pedido Json 
+estado Boolean @default(false)
+}
